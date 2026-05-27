@@ -33,11 +33,6 @@ export const metadata: Metadata = {
     ],
     shortcut: '/favicon.svg',
     apple: '/apple-touch-icon.svg'
-  },
-  other: {
-    'cache-control': 'no-cache, no-store, must-revalidate',
-    pragma: 'no-cache',
-    expires: '0'
   }
 };
 
@@ -51,8 +46,8 @@ export const viewport: Viewport = {
 // Inline cache-recovery script. Runs as early as possible (before any chunks
 // load), so when a stale HTML references missing _next/static chunks we catch
 // the load failures and force a hard reload with a cache-busting query.
-// Keep this as a string so it inlines into <head> at build time.
-const INLINE_CACHE_RECOVERY = `(function(){try{var k='dpx_cache_recovered';window.addEventListener('error',function(e){var t=e.target;if(!t)return;var s=(t.src||t.href||'');if(s.indexOf('/_next/static/')===-1)return;if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,'1');try{if('caches' in window){caches.keys().then(function(ks){return Promise.all(ks.map(function(x){return caches.delete(x);}));}).catch(function(){});}}catch(_){}var u=new URL(location.href);u.searchParams.set('_cb',String(Date.now()));location.replace(u.toString());},true);}catch(_){}})();`;
+const INLINE_CACHE_RECOVERY =
+  "(function(){try{var k='dpx_cache_recovered';window.addEventListener('error',function(e){var t=e.target;if(!t)return;var s=(t.src||t.href||'');if(s.indexOf('/_next/static/')===-1)return;if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,'1');try{if('caches' in window){caches.keys().then(function(ks){return Promise.all(ks.map(function(x){return caches.delete(x);}));}).catch(function(){});}}catch(_){}var u=new URL(location.href);u.searchParams.set('_cb',String(Date.now()));location.replace(u.toString());},true);}catch(_){}})();";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
