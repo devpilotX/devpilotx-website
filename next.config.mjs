@@ -2,6 +2,14 @@
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  eslint: {
+    // Only lint the Next.js frontend. The api/ folder is a separate project deployed on the VPS.
+    dirs: ['src']
+  },
+  typescript: {
+    // tsconfig.json already excludes api/. Build-time type checks still run on src/.
+    ignoreBuildErrors: false
+  },
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'avatars.githubusercontent.com' },
