@@ -6,7 +6,8 @@ export default function SectionHeading({
   subtitle,
   description,
   align = 'left',
-  className
+  className,
+  display = true
 }: {
   eyebrow?: string;
   title: string;
@@ -14,17 +15,20 @@ export default function SectionHeading({
   description?: string;
   align?: 'left' | 'center';
   className?: string;
+  display?: boolean;
 }) {
   return (
-    <div className={cn(align === 'center' ? 'text-center mx-auto' : '', 'max-w-2xl', className)}>
+    <div className={cn(align === 'center' ? 'text-center mx-auto' : '', 'max-w-3xl', className)}>
       {eyebrow ? (
-        <div className={cn('inline-flex items-center gap-2 mb-3', align === 'center' && 'justify-center')}>
-          <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-r from-brand-500 to-cyan-500" />
-          <span className="text-xs uppercase tracking-[0.20em] text-fg-muted">{eyebrow}</span>
+        <div className={cn('inline-flex items-center gap-2 mb-4', align === 'center' && 'justify-center')}>
+          <span className="h-px w-6 bg-fg/40" />
+          <span className="text-[11px] uppercase tracking-[0.22em] text-fg-muted">{eyebrow}</span>
         </div>
       ) : null}
-      <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-fg leading-tight">{title}</h2>
-      {(subtitle ?? description) ? <p className="mt-4 text-fg-dim text-base sm:text-lg leading-relaxed">{subtitle ?? description}</p> : null}
+      <h2 className={cn(display ? 'font-display' : 'font-sans', 'text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight text-fg leading-[1.1]')}>
+        {title}
+      </h2>
+      {(subtitle ?? description) ? <p className="mt-5 text-fg-dim text-base sm:text-lg leading-relaxed max-w-2xl">{subtitle ?? description}</p> : null}
     </div>
   );
 }
