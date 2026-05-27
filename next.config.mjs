@@ -1,4 +1,7 @@
 /** @type {import('next').NextConfig} */
+// Build version 2026-05-27.2 - bumped to force a fresh HCDN cache entry
+// after the index.html cache poisoning fix. Safe to bump on any future
+// stuck-cache incident.
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
