@@ -41,8 +41,8 @@ export type Resume = {
 export const resume: Resume = {
   name: 'Dipanshu Kumar',
   headline: 'AI Engineer · Independent · LLMs, RAG, Agents',
-  location: 'Ambala, Haryana, India',
-  email: 'connect.dipanshukumar@gmail.com',
+  location: 'Patna, Bihar, India',
+  email: 'hello@devpilotx.com',
   linkedinUrl: 'https://linkedin.com/in/dipanshu03j',
   linkedinHandle: 'linkedin.com/in/dipanshu03j',
   githubUrl: 'https://github.com/devpilotX',
@@ -129,7 +129,7 @@ export const resume: Resume = {
       logoColor: 'from-sky-500 to-emerald-500',
       description: [
         'Built epicenterexchange.com — free non-profit finance education site with live equity and crypto dashboards, an in-browser backtester (SMA, RSI, MACD), seven long-form articles, and four calculators.',
-        'Static HTML and Tailwind frontend on GitHub Pages, FastAPI backend on a Hostinger Mumbai VPS behind nginx and Let\'s Encrypt, Resend transactional email, Consent Mode v2 cookie banner.'
+        "Static HTML and Tailwind frontend on GitHub Pages, FastAPI backend on a Hostinger Mumbai VPS behind nginx and Let's Encrypt, Resend transactional email, Consent Mode v2 cookie banner."
       ],
       skills: ['FastAPI', 'Python', 'GitHub Pages', 'Nginx', "Let's Encrypt", 'Resend']
     }
