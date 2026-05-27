@@ -7,6 +7,8 @@ export default function ServiceCard({ service, index = 0 }: { service: Service; 
   const Icon =
     (Icons as unknown as Record<string, React.ComponentType<{ size?: number; className?: string }>>)[service.icon] ??
     Icons.Sparkles;
+  const fromINR = service.startsAt.IN;
+  const fromUSD = service.startsAt.US;
   return (
     <Link
       href={'/services/' + service.slug}
@@ -35,10 +37,10 @@ export default function ServiceCard({ service, index = 0 }: { service: Service; 
       <div className="mt-auto pt-5 hairline flex items-center justify-between text-[12px]">
         <div className="flex flex-col gap-1">
           <span className="text-fg-muted uppercase tracking-[0.16em]">Starts at</span>
-          <span className="text-fg numeric text-[13px]">{service.startsAt}</span>
+          <span className="text-fg numeric text-[13px]">{fromINR} · {fromUSD}</span>
         </div>
         <span className="inline-flex items-center gap-1.5 text-fg-dim group-hover:text-fg transition-colors">
-          View details and pricing <ArrowUpRight size={13} />
+          See pricing <ArrowUpRight size={13} />
         </span>
       </div>
     </Link>

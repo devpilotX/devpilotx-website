@@ -1,9 +1,13 @@
+import type { RegionCode } from '@/lib/region';
+
+export type RegionPrice = string; // display string, currency formatted
+
 export type ServiceTier = {
   tier: string;
-  price: string;
   description: string;
   includes: string[];
   popular?: boolean;
+  prices: Record<RegionCode, RegionPrice>;
 };
 
 export type ServiceFaq = { q: string; a: string };
@@ -18,7 +22,8 @@ export type Service = {
   bullets: string[];
   deliverables: string[];
   timeline: string;
-  startsAt: string;
+  /** Region-aware starting price strings for compact displays (cards, hero). */
+  startsAt: Record<RegionCode, string>;
   gradient: string;
   pricing: ServiceTier[];
   pricingNote: string;
@@ -30,6 +35,9 @@ export type Service = {
   faqs: ServiceFaq[];
 };
 
+/** Pricing is calibrated to purchasing power parity, not raw FX. Indian rates
+ * reflect local market. US/UK/EU/GB rates reflect the senior-engineering market
+ * in those regions. APAC and emerging markets sit close to Indian PPP. */
 export const services: Service[] = [
   {
     slug: 'custom-ai-agents',
@@ -52,35 +60,35 @@ export const services: Service[] = [
       'Repository access from day one in your GitHub org'
     ],
     timeline: '1 to 3 weeks',
-    startsAt: '₹85,000  ·  $1,050',
+    startsAt: { IN: '₹85,000', APAC: '$700', EU: '€1,100', GB: '£950', US: '$1,200' },
     gradient: 'from-indigo-500/30 via-violet-500/20 to-cyan-500/30',
     pricing: [
       {
         tier: 'Single agent',
-        price: '₹85,000  ·  $1,050',
         description: 'One focused agent with up to 5 tools, deployed to one platform.',
-        includes: ['1 agent or assistant', 'Up to 5 tool integrations', 'Eval set of 20 tasks', 'Runbook and handover', '2 weeks post-launch support']
+        includes: ['1 agent or assistant', 'Up to 5 tool integrations', 'Eval set of 20 tasks', 'Runbook and handover', '2 weeks post-launch support'],
+        prices: { IN: '₹85,000', APAC: '$700', EU: '€1,100', GB: '£950', US: '$1,200' }
       },
       {
         tier: 'Multi-tool agent or MCP server',
-        price: '₹1,50,000  ·  $1,850',
         description: 'Full MCP server with 10 to 15 tools, OAuth, error handling, observability.',
         includes: ['Production MCP server', '10 to 15 tool integrations', 'OAuth and secret management', 'Cost and latency dashboard', '4 weeks post-launch support'],
+        prices: { IN: '₹1,50,000', APAC: '$1,250', EU: '€1,900', GB: '£1,650', US: '$2,100' },
         popular: true
       },
       {
         tier: 'Agent system',
-        price: '₹2,50,000+  ·  $3,000+',
         description: 'Coordinated multi-agent workflow with planner, executor, critic, and a custom UI.',
-        includes: ['Multi-agent orchestration', 'Custom React or Next.js UI', 'Full eval harness with regression tests', 'On-call rotation for first 8 weeks', 'Source code and full IP transfer']
+        includes: ['Multi-agent orchestration', 'Custom React or Next.js UI', 'Full eval harness with regression tests', 'On-call rotation for first 8 weeks', 'Source code and full IP transfer'],
+        prices: { IN: '₹2,50,000+', APAC: '$2,100+', EU: '€3,200+', GB: '£2,750+', US: '$3,500+' }
       }
     ],
-    pricingNote: 'Every price is fixed and written before work starts. No hourly creep. If a change in scope is needed, I send a one-page amendment first.',
+    pricingNote: 'Every price is fixed and written before work starts. No hourly creep. Prices vary by region to match local engineering market rates fairly. Pick the region you operate from; if your country is not listed exactly, use the closest match or email me and I will quote in your currency.',
     whyThisPrice: [
-      'You pay for senior engineering, not an agency markup. Comparable scope at a London or SF agency lands between $15k and $50k.',
+      'You pay for senior engineering, not an agency markup. The same scope at a London or San Francisco agency lands between $15k and $50k.',
       'I have already shipped five production AI systems on my own time. You do not pay me to learn the basics.',
       'Every project includes an eval harness. That alone saves the cost of a QA engineer and gives you proof the agent works before go-live.',
-      'Indian engineering rates, global engineering standard. The math just works in your favour.'
+      'Regional pricing is honest, not opportunistic. Indian clients get Indian rates. US clients get US rates. Nobody subsidises anybody.'
     ],
     whyTrust: [
       'One accountable person from first call to handover. No project managers, no rotating offshore team, no language gap.',
@@ -111,7 +119,7 @@ export const services: Service[] = [
       { q: 'Will the agent get expensive to run?', a: 'Every agent ships with a cost dashboard and per-call rate limits. A typical agent doing around 100 runs a day costs $20 to $80 a month in LLM spend.' },
       { q: 'What if the agent makes a mistake in production?', a: 'Every destructive action has a dry-run mode and a confirmation gate by default. There is a kill switch you can hit from a single command. Critical actions like sending email or modifying records are always logged.' },
       { q: 'Do you sign NDAs?', a: 'Yes, before the first call if needed. I keep a clean mutual NDA template that I can send in minutes.' },
-      { q: 'Can you start next week?', a: 'Sometimes. I take 2 to 3 clients at a time so the queue varies. Email me at services@devpilotx.com to ask about availability.' }
+      { q: 'Why do prices differ by region?', a: 'Because senior engineering rates differ by region. I would rather quote you a fair local price than charge London rates everywhere or Indian rates everywhere. The deliverable is identical; the price reflects your market, not mine.' }
     ]
   },
   {
@@ -134,33 +142,33 @@ export const services: Service[] = [
       'Source code in your GitHub from day one'
     ],
     timeline: '3 to 14 days',
-    startsAt: '₹45,000  ·  $550',
+    startsAt: { IN: '₹45,000', APAC: '$370', EU: '€580', GB: '£500', US: '$650' },
     gradient: 'from-emerald-500/30 via-teal-500/20 to-cyan-500/30',
     pricing: [
       {
         tier: 'Single workflow',
-        price: '₹45,000  ·  $550',
         description: '1 to 2 step automation. Example: GitHub PR opened triggers a Slack summary.',
-        includes: ['1 workflow', 'Up to 3 integrations', 'Error alerts to email', 'Runbook', '1 week post-launch support']
+        includes: ['1 workflow', 'Up to 3 integrations', 'Error alerts to email', 'Runbook', '1 week post-launch support'],
+        prices: { IN: '₹45,000', APAC: '$370', EU: '€580', GB: '£500', US: '$650' }
       },
       {
         tier: 'Multi-step pipeline',
-        price: '₹85,000  ·  $1,050',
         description: 'End-to-end workflow across 3 to 5 services with retries and monitoring.',
         includes: ['Up to 3 chained workflows', '3 to 5 integrations', 'Retries and dead-letter queue', 'Status dashboard', '2 weeks post-launch support'],
+        prices: { IN: '₹85,000', APAC: '$700', EU: '€1,100', GB: '£950', US: '$1,200' },
         popular: true
       },
       {
         tier: 'Scheduled job system',
-        price: '₹1,25,000  ·  $1,500',
         description: 'Cron-style background jobs with full observability and a custom status page.',
-        includes: ['Cron scheduling layer', '5+ jobs', 'Postgres-backed run history', 'Custom status page', '4 weeks post-launch support']
+        includes: ['Cron scheduling layer', '5+ jobs', 'Postgres-backed run history', 'Custom status page', '4 weeks post-launch support'],
+        prices: { IN: '₹1,25,000', APAC: '$1,050', EU: '€1,600', GB: '£1,400', US: '$1,750' }
       }
     ],
-    pricingNote: 'Hosting on my VPS is free for the first 3 months. After that, $15 a month covers infrastructure if you do not want to host it yourself.',
+    pricingNote: 'Hosting on my VPS is free for the first 3 months. After that, $15 a month covers infrastructure if you do not want to host it yourself. Prices vary by region to match local engineering market rates.',
     whyThisPrice: [
       'Most teams pay an engineer for a week to wire up Zapier-style flows that break in 4 months. I build something that is observable, version-controlled, and easy to extend.',
-      'You get a real Git repository, not a black-box no-code config. That means the next engineer can pick it up in an hour, not a week.',
+      'You get a real Git repository, not a black-box no-code config. The next engineer can pick it up in an hour, not a week.',
       'Failure handling is included by default. Retries, dead-letter queues, and alerting are not add-ons; they are how every pipeline I build is shaped.'
     ],
     whyTrust: [
@@ -212,32 +220,32 @@ export const services: Service[] = [
       'Source code in your GitHub from day one'
     ],
     timeline: '2 to 6 weeks',
-    startsAt: '₹65,000  ·  $800',
+    startsAt: { IN: '₹65,000', APAC: '$550', EU: '€850', GB: '£730', US: '$950' },
     gradient: 'from-amber-500/30 via-orange-500/20 to-rose-500/30',
     pricing: [
       {
         tier: 'Marketing site',
-        price: '₹65,000  ·  $800',
         description: 'Up to 8 pages, content-driven, SEO done right, Lighthouse 90+.',
-        includes: ['Up to 8 pages', 'Custom design system', 'SEO, sitemap, JSON-LD', 'Dark mode', 'Hosting setup', '2 weeks post-launch support']
+        includes: ['Up to 8 pages', 'Custom design system', 'SEO, sitemap, JSON-LD', 'Dark mode', 'Hosting setup', '2 weeks post-launch support'],
+        prices: { IN: '₹65,000', APAC: '$550', EU: '€850', GB: '£730', US: '$950' }
       },
       {
         tier: 'Web app',
-        price: '₹1,75,000  ·  $2,100',
         description: 'Authenticated app with database, payments, and an admin panel.',
         includes: ['Auth (NextAuth or Clerk)', 'Postgres or MySQL', 'Payments (Stripe or Razorpay)', 'Admin panel', 'Transactional email', '4 weeks post-launch support'],
+        prices: { IN: '₹1,75,000', APAC: '$1,450', EU: '€2,250', GB: '£1,950', US: '$2,500' },
         popular: true
       },
       {
         tier: 'Full platform',
-        price: '₹3,50,000+  ·  $4,200+',
         description: 'Multi-tenant SaaS with auth, billing, dashboards, content, and analytics.',
-        includes: ['Multi-tenancy', 'Billing and subscription plans', 'Internal dashboards', 'CMS and marketing site', 'Analytics and event tracking', '8 weeks post-launch support']
+        includes: ['Multi-tenancy', 'Billing and subscription plans', 'Internal dashboards', 'CMS and marketing site', 'Analytics and event tracking', '8 weeks post-launch support'],
+        prices: { IN: '₹3,50,000+', APAC: '$2,900+', EU: '€4,500+', GB: '£3,900+', US: '$5,000+' }
       }
     ],
-    pricingNote: 'Domain, hosting, and third-party services (Stripe, Razorpay, Resend, Sentry) are billed to your accounts. I do not mark them up.',
+    pricingNote: 'Domain, hosting, and third-party services (Stripe, Razorpay, Resend, Sentry) are billed to your accounts. I do not mark them up. Prices vary by region to match local engineering market rates.',
     whyThisPrice: [
-      'A studio agency charges $8k to $25k for the same marketing site. I deliver the same quality solo because there is no project manager layer to fund.',
+      'A studio agency charges 8 to 25 times the marketing-site price for the same scope. I deliver the same quality solo because there is no project manager layer to fund.',
       'I write production-grade TypeScript. Your next hire can read it. No proprietary template debt.',
       'Lighthouse 90+, accessibility, and SEO are not upsells. They are how I build by default.',
       'You get a real component system, not a one-shot template. Adding pages later costs hours, not days.'
@@ -291,30 +299,30 @@ export const services: Service[] = [
       'Source code in your GitHub from day one'
     ],
     timeline: '1 to 4 weeks',
-    startsAt: '₹55,000  ·  $650',
+    startsAt: { IN: '₹55,000', APAC: '$460', EU: '€700', GB: '£620', US: '$800' },
     gradient: 'from-fuchsia-500/30 via-pink-500/20 to-rose-500/30',
     pricing: [
       {
         tier: 'Chatbot or AI search',
-        price: '₹55,000  ·  $650',
         description: 'AI chat widget or search-augmented assistant on your existing site or app.',
-        includes: ['Chat or search widget', 'Embedded into your site', 'Basic eval set', 'Cost dashboard', '2 weeks post-launch support']
+        includes: ['Chat or search widget', 'Embedded into your site', 'Basic eval set', 'Cost dashboard', '2 weeks post-launch support'],
+        prices: { IN: '₹55,000', APAC: '$460', EU: '€700', GB: '£620', US: '$800' }
       },
       {
         tier: 'RAG over your docs',
-        price: '₹1,25,000  ·  $1,500',
         description: 'Production RAG pipeline with embeddings, retrieval, citations, and ingestion.',
         includes: ['Embeddings pipeline', 'Vector database (pgvector, Chroma, or Pinecone)', 'Citation UI', 'Reindex on demand', '4 weeks post-launch support'],
+        prices: { IN: '₹1,25,000', APAC: '$1,050', EU: '€1,600', GB: '£1,400', US: '$1,750' },
         popular: true
       },
       {
         tier: 'Custom AI feature',
-        price: '₹2,00,000+  ·  $2,400+',
         description: 'A real AI feature in your app: summarization, generation, classification, or scoring.',
-        includes: ['End-to-end feature', 'Full eval harness', 'A/B comparison versus baseline', 'Telemetry and admin panel', '8 weeks post-launch support']
+        includes: ['End-to-end feature', 'Full eval harness', 'A/B comparison versus baseline', 'Telemetry and admin panel', '8 weeks post-launch support'],
+        prices: { IN: '₹2,00,000+', APAC: '$1,680+', EU: '€2,550+', GB: '£2,200+', US: '$2,900+' }
       }
     ],
-    pricingNote: 'LLM API costs are billed to your accounts. I optimize prompts and pick models so your monthly inference bill is predictable, not a surprise.',
+    pricingNote: 'LLM API costs are billed to your accounts. I optimize prompts and pick models so your monthly inference bill is predictable. Prices vary by region to match local engineering market rates.',
     whyThisPrice: [
       'Bolting AI onto a real product without breaking it is harder than building a demo. You are paying for restraint, evals, and a careful rollout, not for stack-overflow snippets.',
       'Every feature ships with an eval set. We measure quality before launch and after every prompt change. Your future self will thank you.',
