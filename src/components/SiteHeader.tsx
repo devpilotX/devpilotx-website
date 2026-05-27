@@ -39,10 +39,15 @@ export default function SiteHeader() {
     >
       <Container as="div" className="flex h-16 items-center justify-between gap-3">
         <Link href="/" className="flex items-center gap-2.5 group focus-ring rounded-md" aria-label={site.name}>
-          <span className="relative inline-flex h-8 w-8 items-center justify-center rounded-xl bg-brand-gradient shadow-glow">
-            <span className="text-white font-bold text-sm tracking-tight">D</span>
+          <span className="relative inline-flex h-9 w-9 items-center justify-center rounded-xl bg-brand-gradient shadow-glow ring-1 ring-white/10">
+            <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden="true">
+              <path d="M6 4h6c5 0 8.5 3.4 8.5 8s-3.5 8-8.5 8H6V4zm3.4 3v10H12c3 0 5-2 5-5s-2-5-5-5H9.4z" fill="white"/>
+              <circle cx="19" cy="19" r="1.6" fill="white"/>
+            </svg>
           </span>
-          <span className="font-semibold tracking-tight text-fg">{site.name}</span>
+          <span className="font-display text-[19px] leading-none font-semibold tracking-tight text-fg">
+            {site.name}<span className="text-gradient">.</span>
+          </span>
         </Link>
 
         <nav className="hidden md:flex items-center gap-0.5">

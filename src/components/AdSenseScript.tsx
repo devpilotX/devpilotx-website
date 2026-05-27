@@ -1,3 +1,5 @@
+'use client';
+
 import Script from 'next/script';
 import { site } from '@/content/site';
 
@@ -8,7 +10,7 @@ export function AdSenseScript() {
   return (
     <Script
       id="adsense-loader"
-      strategy="afterInteractive"
+      strategy="lazyOnload"
       src={src}
       crossOrigin="anonymous"
       async

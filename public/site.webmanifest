@@ -1,12 +1,15 @@
 {
   "name": "DevPilotX",
   "short_name": "DevPilotX",
+  "description": "AI engineering studio. Production-grade agents, RAG, and full-stack platforms.",
   "icons": [
-    { "src": "/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png" }
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" },
+    { "src": "/apple-touch-icon.svg", "sizes": "180x180", "type": "image/svg+xml" }
   ],
-  "theme_color": "#2563eb",
-  "background_color": "#ffffff",
+  "theme_color": "#0a0a0f",
+  "background_color": "#0a0a0f",
   "display": "standalone",
-  "start_url": "/"
+  "start_url": "/",
+  "scope": "/"
 }

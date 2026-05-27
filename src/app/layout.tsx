@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { GeistSans } from 'geist/font/sans';
 import { GeistMono } from 'geist/font/mono';
+import { Fraunces } from 'next/font/google';
 import './globals.css';
 import { site } from '@/content/site';
 import { buildMetadata } from '@/lib/seo';
@@ -12,7 +13,27 @@ import AnalyticsScript from '@/components/AnalyticsScript';
 import AdSenseScript from '@/components/AdSenseScript';
 import ThemeProvider from '@/components/ThemeProvider';
 
-export const metadata: Metadata = buildMetadata({});
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  display: 'swap',
+  weight: ['500', '600', '700'],
+  variable: '--font-fraunces',
+  axes: ['SOFT', 'opsz']
+});
+
+export const metadata: Metadata = {
+  ...buildMetadata({}),
+  manifest: '/site.webmanifest',
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/icon.svg', type: 'image/svg+xml', sizes: 'any' }
+    ],
+    shortcut: '/favicon.svg',
+    apple: '/apple-touch-icon.svg'
+  }
+};
+
 export const viewport: Viewport = {
   themeColor: [
     { media: '(prefers-color-scheme: light)', color: '#fafafc' },
@@ -22,9 +43,8 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${GeistSans.variable} ${GeistMono.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${GeistSans.variable} ${GeistMono.variable} ${fraunces.variable}`}>
       <head>
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="canonical" href={site.url} />
         <script
           type="application/ld+json"
