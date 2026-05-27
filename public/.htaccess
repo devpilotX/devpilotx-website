@@ -10,6 +10,11 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 RewriteCond %{THE_REQUEST} /index\.html [NC]
 RewriteRule ^(.*?)index\.html$ /$1 [L,R=301,NE]
 
+# Safari/iOS auto-requests /apple-touch-icon.png even when not in HTML.
+# Serve the SVG with the PNG filename so the browser is happy.
+RewriteRule ^apple-touch-icon\.png$ /apple-touch-icon.svg [L]
+RewriteRule ^apple-touch-icon-precomposed\.png$ /apple-touch-icon.svg [L]
+
 # Try the requested path, then path with a trailing slash, then path/index.html.
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
