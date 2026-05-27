@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>DevPilotX - Cache fix</title>
+  <style>
+    :root { color-scheme: light dark; }
+    html, body { margin: 0; padding: 0; background: #0b1020; color: #e7ecff; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; min-height: 100%; }
+    .wrap { max-width: 540px; margin: 0 auto; padding: 64px 24px; }
+    h1 { font-size: 22px; letter-spacing: -0.01em; margin: 0 0 12px; }
+    p { color: #aab3d6; font-size: 14px; line-height: 1.6; margin: 8px 0; }
+    .log { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); padding: 14px 16px; border-radius: 12px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; line-height: 1.7; margin-top: 18px; white-space: pre-wrap; word-break: break-word; }
+    .log .ok { color: #7dd3fc; }
+    .log .warn { color: #fcd34d; }
+    .log .err { color: #fca5a5; }
+    .cta { display: inline-flex; align-items: center; gap: 8px; margin-top: 22px; padding: 10px 16px; background: #4f46e5; color: white; border-radius: 10px; font-size: 14px; font-weight: 600; text-decoration: none; }
+    .muted { color: #6b7390; font-size: 12px; margin-top: 18px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Clearing local cache and reloading...</h1>
+    <p>This page deletes any stale service workers, browser caches, and storage for devpilotx.com, then sends you to a fresh copy of the homepage. It runs once. You can close this tab as soon as the redirect happens.</p>
+    <div class="log" id="log"></div>
+    <a class="cta" id="manualGo" href="/?_cb=manual" style="display:none">Continue to homepage</a>
+    <p class="muted">If you are not redirected within 6 seconds, click the button above.</p>
+  </div>
+  <script>
+    (function () {
+      var logEl = document.getElementById('log');
+      function log(msg, level) {
+        var span = document.createElement('span');
+        span.className = level || 'ok';
+        span.textContent = msg + '\n';
+        logEl.appendChild(span);
+      }
+      function done() {
+        var u = '/?_cb=' + Date.now();
+        log('redirecting to ' + u, 'ok');
+        try { window.location.replace(u); } catch (_) { window.location.href = u; }
+      }
+
+      var tasks = [];
+      // 1. Unregister all service workers in scope
+      if ('serviceWorker' in navigator) {
+        tasks.push(
+          navigator.serviceWorker.getRegistrations().then(function (regs) {
+            return Promise.all(regs.map(function (r) {
+              return r.unregister().then(function (ok) {
+                log('sw.unregister ' + r.scope + ' = ' + ok, ok ? 'ok' : 'warn');
+              }).catch(function (e) {
+                log('sw.unregister error: ' + e, 'warn');
+              });
+            }));
+          }).catch(function (e) { log('sw.getRegistrations error: ' + e, 'warn'); })
+        );
+      } else {
+        log('serviceWorker API not available (ok)', 'warn');
+      }
+
+      // 2. Delete all Cache API entries
+      if ('caches' in window) {
+        tasks.push(
+          caches.keys().then(function (keys) {
+            return Promise.all(keys.map(function (k) {
+              return caches.delete(k).then(function (ok) {
+                log('caches.delete ' + k + ' = ' + ok, ok ? 'ok' : 'warn');
+              });
+            }));
+          }).catch(function (e) { log('caches.keys error: ' + e, 'warn'); })
+        );
+      } else {
+        log('Cache API not available (ok)', 'warn');
+      }
+
+      // 3. Clear localStorage + sessionStorage
+      try { sessionStorage.clear(); log('sessionStorage cleared', 'ok'); } catch (e) { log('sessionStorage error: ' + e, 'warn'); }
+      try { localStorage.clear(); log('localStorage cleared', 'ok'); } catch (e) { log('localStorage error: ' + e, 'warn'); }
+
+      // 4. Delete cookies for this host
+      try {
+        document.cookie.split(';').forEach(function (c) {
+          var name = c.split('=')[0].trim();
+          if (!name) return;
+          document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+        });
+        log('cookies wiped', 'ok');
+      } catch (e) { log('cookie wipe error: ' + e, 'warn'); }
+
+      // Show manual button as a fallback
+      setTimeout(function () {
+        var btn = document.getElementById('manualGo');
+        if (btn) btn.style.display = 'inline-flex';
+      }, 1500);
+
+      Promise.all(tasks).then(done).catch(done);
+      // Hard timeout: if anything hangs, still redirect after 4 seconds
+      setTimeout(done, 4000);
+    })();
+  </script>
+</body>
+</html>
