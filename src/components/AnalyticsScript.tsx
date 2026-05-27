@@ -2,7 +2,7 @@ import Script from 'next/script';
 import { site } from '@/content/site';
 
 export function AnalyticsScript() {
-  const id = site.analytics.measurementId;
+  const id = site.analytics.ga;
   if (!id) return null;
   return (
     <>
@@ -17,3 +17,5 @@ export function AnalyticsScript() {
     </>
   );
 }
+
+export default AnalyticsScript;

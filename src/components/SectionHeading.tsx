@@ -1,23 +1,30 @@
 import { cn } from '@/lib/utils';
 
-type Props = {
+export default function SectionHeading({
+  eyebrow,
+  title,
+  subtitle,
+  description,
+  align = 'left',
+  className
+}: {
   eyebrow?: string;
   title: string;
+  subtitle?: string;
   description?: string;
   align?: 'left' | 'center';
   className?: string;
-};
-
-export function SectionHeading({ eyebrow, title, description, align = 'left', className }: Props) {
+}) {
   return (
-    <div className={cn('max-w-3xl', align === 'center' && 'mx-auto text-center', className)}>
+    <div className={cn(align === 'center' ? 'text-center mx-auto' : '', 'max-w-2xl', className)}>
       {eyebrow ? (
-        <p className="text-sm font-medium uppercase tracking-widest text-brand-600 dark:text-brand-400">{eyebrow}</p>
+        <div className="inline-flex items-center gap-2 mb-3">
+          <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-r from-brand-500 to-cyan-500" />
+          <span className="text-xs uppercase tracking-[0.18em] text-ink-dim">{eyebrow}</span>
+        </div>
       ) : null}
-      <h2 className="mt-2 text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl dark:text-white">{title}</h2>
-      {description ? (
-        <p className="mt-4 text-lg leading-7 text-slate-600 dark:text-slate-300">{description}</p>
-      ) : null}
+      <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-ink leading-tight">{title}</h2>
+      {(subtitle ?? description) ? <p className="mt-3 text-ink-dim text-base sm:text-lg leading-relaxed">{subtitle ?? description}</p> : null}
     </div>
   );
 }

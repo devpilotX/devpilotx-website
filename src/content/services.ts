@@ -1,95 +1,98 @@
 export type Service = {
   slug: string;
   name: string;
-  tagline: string;
-  description: string;
-  startingAtUSD?: number;
+  oneLiner: string;
+  icon: string; // lucide-react icon name
+  bullets: string[];
   deliverables: string[];
-  idealFor: string[];
+  timeline: string;
+  startsAt: string;
+  gradient: string;
 };
 
 export const services: Service[] = [
   {
-    slug: 'custom-website',
-    name: 'Custom Website',
-    tagline: 'Marketing site, product site, or portfolio built like a flagship.',
-    description:
-      'A senior level custom build on Next.js or a static stack of your choice. Design system, content model, analytics, SEO, and hosting decisions handled end to end.',
-    startingAtUSD: 1200,
-    deliverables: [
-      'Discovery and information architecture',
-      'Tailored design system with light and dark mode',
-      'Up to eight pages, fully responsive and accessible',
-      'SEO, sitemap, robots, structured data, Open Graph',
-      'Analytics (GA4 or Plausible) and basic conversion events',
-      'Deploy to Hostinger, Vercel, or your own VPS'
+    slug: 'custom-ai-agents',
+    name: 'Custom AI Agents',
+    oneLiner: 'Domain-specific AI agents and MCP servers that actually run in your workflow.',
+    icon: 'Bot',
+    bullets: [
+      'Notion AI custom agents with scoped tool access',
+      'MCP servers for your internal APIs, databases, and SaaS tools',
+      'LLM orchestration with retries, evals, and guardrails',
+      'Logging, observability, and a kill switch'
     ],
-    idealFor: [
-      'Founders launching a startup or service business',
-      'Creators who want a real home, not a template',
-      'Teams replacing a clunky legacy site'
-    ]
+    deliverables: [
+      'Working agent deployed to your environment',
+      'Tool definitions and prompt library checked into your repo',
+      'Eval harness with at least 20 ground-truth tasks',
+      'Runbook and operator guide'
+    ],
+    timeline: '1 to 3 weeks',
+    startsAt: 'Quote on scope',
+    gradient: 'from-indigo-500/30 via-violet-500/20 to-cyan-500/30'
   },
   {
-    slug: 'automation',
-    name: 'Automation',
-    tagline: 'Wire your tools together so the boring work stops.',
-    description:
-      'Custom automation across your stack: data pipelines, scheduled syncs, internal tooling, CRM glue, scrapers (within terms of service), and bespoke API integrations.',
-    startingAtUSD: 800,
-    deliverables: [
-      'Process audit and ROI estimate before we build',
-      'Reliable, observable jobs with logs and retries',
-      'Documentation and a runbook your team can actually use',
-      'Optional dashboards for monitoring'
+    slug: 'automation-pipelines',
+    name: 'Automation Pipelines',
+    oneLiner: 'Reliable background workflows across Slack, GitHub, Gmail, Calendar, Notion, and your APIs.',
+    icon: 'Workflow',
+    bullets: [
+      'Webhook handlers with idempotency and retries',
+      'Scheduled jobs on your infra or mine (VPS, pm2, systemd)',
+      'End-to-end monitoring and alerting',
+      'Secrets handled correctly: env vars, vaults, no plaintext'
     ],
-    idealFor: [
-      'Operations teams drowning in spreadsheet work',
-      'Founders who need a v1 internal tool fast',
-      'Anyone repeating the same task more than once a week'
-    ]
+    deliverables: [
+      'Production-deployed pipeline with health checks',
+      'Source code in your repo with CI on lint and typecheck',
+      'Operator dashboard or status endpoint',
+      'Failure-mode documentation'
+    ],
+    timeline: '1 to 2 weeks',
+    startsAt: 'Quote on scope',
+    gradient: 'from-emerald-500/30 via-teal-500/20 to-indigo-500/30'
   },
   {
-    slug: 'ai-agent',
-    name: 'Custom AI Agent',
-    tagline: 'A focused agent that does one job extremely well.',
-    description:
-      'Bespoke AI agents wired into your data and tools. Used for triage, drafting, lookup, classification, and structured output. Built with safety, audit logs, and human approval where it matters.',
-    startingAtUSD: 1500,
-    deliverables: [
-      'Use case scoping and evaluation plan',
-      'Agent with tool access, memory, and guardrails',
-      'Eval harness with regression tests',
-      'Hosting on your infra or ours, with logs and metrics',
-      'Handover doc and a short training session'
+    slug: 'nextjs-websites',
+    name: 'Next.js Websites and Dashboards',
+    oneLiner: 'Production-grade Next.js 14+ apps. Same stack that powers paisareality.com and value.codes.',
+    icon: 'LayoutDashboard',
+    bullets: [
+      'App Router, TypeScript, Tailwind, server components where they help',
+      'PostgreSQL or MySQL with Prisma, JWT auth, payments (Razorpay or Stripe)',
+      'SEO done properly: sitemap, robots, JSON-LD, Open Graph, Twitter cards',
+      'Analytics, AdSense, Consent Mode v2 if you monetize'
     ],
-    idealFor: [
-      'Support and sales teams swamped by repetitive queries',
-      'Operators who want structured output from unstructured input',
-      'Founders prototyping an AI feature for their product'
-    ]
+    deliverables: [
+      'Deployed Next.js app on Hostinger, Vercel, or your VPS',
+      'Admin CMS or content editor where needed',
+      'Performance budget passed: Lighthouse 90+ on mobile',
+      'Handover doc covering env, deploys, and DNS'
+    ],
+    timeline: '2 to 6 weeks',
+    startsAt: 'Quote on scope',
+    gradient: 'from-amber-500/30 via-rose-500/20 to-indigo-500/30'
   },
   {
-    slug: 'retainer',
-    name: 'Engineering Retainer',
-    tagline: 'A senior engineer on call, by the month.',
-    description:
-      'A monthly retainer for ongoing builds, fixes, and reviews. Best for teams that need senior judgement without a full-time hire.',
-    startingAtUSD: 2000,
-    deliverables: [
-      'A fixed monthly bucket of focused engineering time',
-      'Weekly check-in and a shared backlog',
-      'Code reviews, architecture calls, and pair sessions',
-      'Priority response on incidents'
+    slug: 'ai-integration',
+    name: 'AI Integration',
+    oneLiner: 'Add chatbots, RAG over your knowledge base, summarization, and content generation to existing apps.',
+    icon: 'Sparkles',
+    bullets: [
+      'RAG pipelines on pgvector, Chroma, or Pinecone with citations',
+      'OpenAI and Anthropic completions with cost controls',
+      'Embedded chat widgets and search-augmented assistants',
+      'Eval pipeline so quality does not silently drift'
     ],
-    idealFor: [
-      'Early stage teams without a senior engineer in house',
-      'Solo founders who need a sparring partner',
-      'Agencies overflowing on a hot project'
-    ]
+    deliverables: [
+      'Live AI feature in your product, behind a feature flag if you want',
+      'Embedding ingestion pipeline you can run on demand',
+      'Eval set covering tone, accuracy, and refusals',
+      'Cost dashboard and rate-limit defaults'
+    ],
+    timeline: '1 to 4 weeks',
+    startsAt: 'Quote on scope',
+    gradient: 'from-sky-500/30 via-indigo-500/20 to-fuchsia-500/30'
   }
 ];
-
-export function getService(slug: string): Service | undefined {
-  return services.find((s) => s.slug === slug);
-}

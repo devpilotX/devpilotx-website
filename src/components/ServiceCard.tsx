@@ -1,30 +1,34 @@
-import Link from 'next/link';
+import * as Icons from 'lucide-react';
 import type { Service } from '@/content/services';
+import { cn } from '@/lib/utils';
 
-export function ServiceCard({ service }: { service: Service }) {
+export default function ServiceCard({ service, index = 0 }: { service: Service; index?: number }) {
+  const Icon = (Icons as unknown as Record<string, React.ComponentType<{ size?: number; className?: string }>>)[service.icon] ?? Icons.Sparkles;
   return (
-    <article className="card flex h-full flex-col">
-      <div className="flex items-baseline justify-between gap-3">
-        <h3 className="text-lg font-semibold tracking-tight text-slate-900 dark:text-white">{service.name}</h3>
-        {service.startingAtUSD ? (
-          <span className="text-sm text-slate-500 dark:text-slate-400">from ${service.startingAtUSD}</span>
-        ) : null}
+    <div className="card relative overflow-hidden p-7 flex flex-col gap-5 h-full">
+      <div aria-hidden className={cn('absolute inset-0 -z-0 opacity-25 bg-gradient-to-br', service.gradient)} />
+      <div className="relative flex items-center justify-between">
+        <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-brand-gradient shadow-glow">
+          <Icon size={20} className="text-white" />
+        </div>
+        <span className="text-xs text-ink-muted font-mono">{String(index + 1).padStart(2, '0')}</span>
       </div>
-      <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">{service.tagline}</p>
-      <p className="mt-3 text-sm leading-6 text-slate-700 dark:text-slate-300">{service.description}</p>
-      <ul className="mt-4 space-y-2 text-sm text-slate-700 dark:text-slate-300">
-        {service.deliverables.map((d) => (
-          <li key={d} className="flex gap-2">
-            <span aria-hidden="true" className="mt-1 inline-block h-1.5 w-1.5 flex-none rounded-full bg-brand-600" />
-            <span>{d}</span>
+      <div className="relative">
+        <h3 className="text-xl font-semibold tracking-tight">{service.name}</h3>
+        <p className="mt-2 text-sm text-ink-dim leading-relaxed">{service.oneLiner}</p>
+      </div>
+      <ul className="relative space-y-2 text-sm">
+        {service.bullets.map((b) => (
+          <li key={b} className="flex gap-2 text-ink/90">
+            <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-gradient-to-r from-brand-400 to-cyan-400" />
+            <span>{b}</span>
           </li>
         ))}
       </ul>
-      <div className="mt-6">
-        <Link href={'/contact?service=' + service.slug} className="btn-secondary w-full">
-          Request a quote
-        </Link>
+      <div className="relative mt-auto pt-4 border-t border-border flex items-center justify-between text-xs">
+        <span className="text-ink-muted">Timeline</span>
+        <span className="text-ink">{service.timeline}</span>
       </div>
-    </article>
+    </div>
   );
 }

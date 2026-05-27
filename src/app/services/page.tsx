@@ -1,6 +1,6 @@
-import { Container } from '@/components/Container';
-import { SectionHeading } from '@/components/SectionHeading';
-import { ServiceCard } from '@/components/ServiceCard';
+import Container from '@/components/Container';
+import SectionHeading from '@/components/SectionHeading';
+import ServiceCard from '@/components/ServiceCard';
 import { services } from '@/content/services';
 import { buildMetadata } from '@/lib/seo';
 

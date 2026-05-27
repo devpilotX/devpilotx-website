@@ -106,3 +106,5 @@ export function ContactForm({ source }: { source?: string }) {
     </form>
   );
 }
+
+export default ContactForm;

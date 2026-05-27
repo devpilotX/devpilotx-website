@@ -1,38 +1,83 @@
-import Link from 'next/link';
-import { site } from '@/content/site';
-import { Container } from '@/components/Container';
-import { ThemeToggle } from '@/components/ThemeToggle';
+'use client';
 
-export function SiteHeader() {
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { Command, Github, Linkedin } from 'lucide-react';
+import { site } from '@/content/site';
+import Container from './Container';
+import { cn } from '@/lib/utils';
+
+function openCommandPalette() {
+  if (typeof window === 'undefined') return;
+  window.dispatchEvent(new CustomEvent('dpx:cmdk:open'));
+}
+
+export default function SiteHeader() {
+  const pathname = usePathname();
+  const [scrolled, setScrolled] = useState(false);
+  const [isMac, setIsMac] = useState(true);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 4);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    setIsMac(typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform));
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-slate-200/80 bg-white/80 backdrop-blur dark:border-slate-800/80 dark:bg-slate-950/70">
-      <Container className="flex h-16 items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 text-slate-900 dark:text-white">
-          <span aria-hidden="true" className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-brand-600 text-white shadow-sm">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M4 18l4-12 4 8 4-6 4 10" />
-            </svg>
+    <header
+      className={cn(
+        'sticky top-0 z-40 transition-all duration-300',
+        scrolled ? 'backdrop-blur-md bg-bg/70 border-b border-border' : 'bg-transparent'
+      )}
+    >
+      <Container as="div" className="flex h-16 items-center justify-between">
+        <Link href="/" className="flex items-center gap-2.5 group" aria-label={site.name}>
+          <span className="relative inline-flex h-8 w-8 items-center justify-center rounded-xl bg-brand-gradient shadow-glow">
+            <span className="text-white font-bold text-sm tracking-tight">D</span>
           </span>
-          <span className="font-semibold tracking-tight">{site.name}</span>
+          <span className="font-semibold tracking-tight text-ink group-hover:text-white transition-colors">{site.name}</span>
         </Link>
-        <nav className="hidden items-center gap-8 md:flex" aria-label="Primary">
-          {site.nav
-            .filter((n) => n.href !== '/')
-            .map((item) => (
+
+        <nav className="hidden md:flex items-center gap-1">
+          {site.nav.map((item) => {
+            const active = pathname === item.href || ((item.href as string) !== '/' && pathname?.startsWith(item.href));
+            return (
               <Link
                 key={item.href}
                 href={item.href}
-                className="text-sm font-medium text-slate-600 transition hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
+                className={cn(
+                  'px-3 py-1.5 text-sm rounded-lg transition-colors',
+                  active ? 'text-white bg-white/5' : 'text-ink-dim hover:text-white hover:bg-white/5'
+                )}
               >
                 {item.label}
               </Link>
-            ))}
+            );
+          })}
         </nav>
-        <div className="flex items-center gap-3">
-          <ThemeToggle />
-          <Link href="/contact" className="btn-primary hidden sm:inline-flex">
-            Start a project
+
+        <div className="flex items-center gap-2">
+          <button
+            onClick={openCommandPalette}
+            className="hidden sm:inline-flex items-center gap-2 h-9 px-3 rounded-lg text-xs text-ink-dim glass hover:border-strong transition-colors"
+            aria-label="Open command palette"
+          >
+            <Command size={14} className="opacity-80" />
+            <span className="hidden lg:inline">Search</span>
+            <kbd className="ml-1 px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-[10px] font-mono">
+              {isMac ? '⌘' : 'Ctrl'} K
+            </kbd>
+          </button>
+          <Link href={site.links.github} target="_blank" rel="noreferrer" className="hidden sm:inline-flex h-9 w-9 items-center justify-center rounded-lg glass hover:border-strong text-ink-dim hover:text-white transition-colors" aria-label="GitHub">
+            <Github size={16} />
           </Link>
+          <Link href={site.links.linkedin} target="_blank" rel="noreferrer" className="hidden sm:inline-flex h-9 w-9 items-center justify-center rounded-lg glass hover:border-strong text-ink-dim hover:text-white transition-colors" aria-label="LinkedIn">
+            <Linkedin size={16} />
+          </Link>
+          <Link href="/contact" className="btn btn-primary h-9 px-4 text-[13px]">Get in touch</Link>
         </div>
       </Container>
     </header>

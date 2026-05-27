@@ -1,6 +1,6 @@
-import { Container } from '@/components/Container';
-import { SectionHeading } from '@/components/SectionHeading';
-import { ProjectCard } from '@/components/ProjectCard';
+import Container from '@/components/Container';
+import SectionHeading from '@/components/SectionHeading';
+import ProjectCard from '@/components/ProjectCard';
 import { projects } from '@/content/projects';
 import { buildMetadata } from '@/lib/seo';
 
@@ -12,8 +12,8 @@ export const metadata = buildMetadata({
 
 export default function ProjectsPage() {
   const live = projects.filter((p) => p.status === 'live');
-  const inProgress = projects.filter((p) => p.status === 'in_progress');
-  const planned = projects.filter((p) => p.status === 'planned');
+  const inProgress = projects.filter((p) => p.status === 'in-progress');
+  const planned = projects.filter((p) => p.status === 'private');
   return (
     <Container className="py-20">
       <SectionHeading eyebrow="Projects" title="Live, in progress, and planned" description="Real, deployed work from the studio. Linked where I can, omitted where the client prefers." />

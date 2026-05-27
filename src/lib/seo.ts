@@ -1,19 +1,16 @@
 import type { Metadata } from 'next';
 import { site } from '@/content/site';
 
-export function buildMetadata({
-  title,
-  description,
-  path = '/',
-  ogImage
-}: {
-  title: string;
-  description: string;
+export function buildMetadata(args: {
+  title?: string;
+  description?: string;
   path?: string;
-  ogImage?: string;
+  image?: string;
 }): Metadata {
-  const url = new URL(path, site.url).toString();
-  const image = ogImage || site.url + '/og-default.png';
+  const title = args.title ? `${args.title} | ${site.name}` : `${site.name} — ${site.role}, ${site.ownerName}`;
+  const description = args.description ?? site.tagline;
+  const url = `${site.url}${args.path ?? ''}`;
+  const image = args.image ?? `${site.url}/og.png`;
   return {
     title,
     description,
@@ -31,8 +28,9 @@ export function buildMetadata({
       card: 'summary_large_image',
       title,
       description,
-      images: [image],
-      creator: site.twitter
-    }
+      images: [image]
+    },
+    icons: { icon: '/favicon.svg' },
+    robots: { index: true, follow: true }
   };
 }
