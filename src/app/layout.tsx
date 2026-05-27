@@ -18,8 +18,8 @@ const fraunces = Fraunces({
   subsets: ['latin'],
   display: 'swap',
   weight: ['400', '500', '600', '700'],
-  variable: '--font-fraunces',
-  axes: ['SOFT', 'opsz']
+  style: ['normal', 'italic'],
+  variable: '--font-fraunces'
 });
 
 export const metadata: Metadata = {
