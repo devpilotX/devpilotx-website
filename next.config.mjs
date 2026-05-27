@@ -2,33 +2,26 @@
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  // Static export: Next.js writes a fully static site to ./out, which Hostinger
+  // Premium Web Hosting can serve directly. The Node runtime (and API routes)
+  // live on the VPS at api.devpilotx.com instead.
+  output: 'export',
+  // Hostinger Apache serves /resume as /resume/index.html most reliably.
+  trailingSlash: true,
   eslint: {
-    // Only lint the Next.js frontend. The api/ folder is a separate project deployed on the VPS.
     dirs: ['src']
   },
   typescript: {
-    // tsconfig.json already excludes api/. Build-time type checks still run on src/.
     ignoreBuildErrors: false
   },
   images: {
+    // next/image optimizer requires a Node server; with static export we ship
+    // images as-is via the <img> element under the hood.
+    unoptimized: true,
     remotePatterns: [
       { protocol: 'https', hostname: 'avatars.githubusercontent.com' },
       { protocol: 'https', hostname: 'images.unsplash.com' }
     ]
-  },
-  async headers() {
-    return [
-      {
-        source: '/(.*)',
-        headers: [
-          { key: 'X-DNS-Prefetch-Control', value: 'on' },
-          { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
-          { key: 'X-Content-Type-Options', value: 'nosniff' },
-          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
-          { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' }
-        ]
-      }
-    ];
   }
 };
 
