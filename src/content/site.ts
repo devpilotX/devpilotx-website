@@ -10,7 +10,6 @@ export const site = {
   shortBio:
     'Independent AI engineer from India. BCA graduate from Maharishi Markandeshwar University. I ship live AI agents, automation pipelines, finance tools, and developer infrastructure.',
   location: 'Ambala, Haryana, India',
-  // Primary inbox until devpilotx.com mail is provisioned.
   primaryEmail: 'connect.dipanshukumar@gmail.com',
   email: {
     hello: 'connect.dipanshukumar@gmail.com',
@@ -41,9 +40,9 @@ export const site = {
   },
   nav: [
     { href: '/projects', label: 'Projects' },
+    { href: '/tools', label: 'Tools' },
     { href: '/services', label: 'Services' },
     { href: '/resume', label: 'Resume' },
-    { href: '/about', label: 'About' },
     { href: '/contact', label: 'Contact' }
   ]
 } as const;
