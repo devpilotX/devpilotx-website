@@ -13,7 +13,7 @@ const schema = z.object({
 
 type Status = 'idle' | 'sending' | 'sent' | 'error';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE || '';
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE || 'https://api.devpilotx.com';
 
 export function ContactForm({ source }: { source?: string }) {
   const [status, setStatus] = useState<Status>('idle');
@@ -34,10 +34,6 @@ export function ContactForm({ source }: { source?: string }) {
     const parsed = schema.safeParse(payload);
     if (!parsed.success) {
       setError(parsed.error.errors[0]?.message ?? 'Please review the form');
-      return;
-    }
-    if (!API_BASE) {
-      setError('Contact API is not configured');
       return;
     }
     setStatus('sending');
