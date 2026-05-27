@@ -3,37 +3,50 @@ import { site } from '@/content/site';
 import { projects } from '@/content/projects';
 import { posts } from '@/content/posts';
 
+export const dynamic = 'force-static';
+
 export default function sitemap(): MetadataRoute.Sitemap {
+  const base = site.url.replace(/\/$/, '');
   const now = new Date();
+
   const staticRoutes = [
     '/',
     '/about',
     '/projects',
     '/services',
     '/resume',
-    '/blog',
     '/contact',
+    '/blog',
+    '/tools',
+    '/tools/token-cost',
+    '/tools/model-compare',
+    '/tools/rag-sizer',
+    '/tools/prompt-diff',
     '/legal/privacy',
     '/legal/terms',
     '/legal/cookies'
   ];
-  const base: MetadataRoute.Sitemap = staticRoutes.map((path) => ({
-    url: new URL(path, site.url).toString(),
+
+  const staticEntries: MetadataRoute.Sitemap = staticRoutes.map((path) => ({
+    url: base + path,
     lastModified: now,
-    changeFrequency: 'weekly',
-    priority: path === '/' ? 1 : 0.7
+    changeFrequency: path === '/' ? 'weekly' : 'monthly',
+    priority: path === '/' ? 1 : path.startsWith('/tools') ? 0.9 : 0.7
   }));
-  const proj: MetadataRoute.Sitemap = projects.map((p) => ({
-    url: new URL('/projects/' + p.slug, site.url).toString(),
+
+  const projectEntries: MetadataRoute.Sitemap = projects.map((p) => ({
+    url: base + '/projects/' + p.slug,
+    lastModified: now,
+    changeFrequency: 'monthly',
+    priority: 0.8
+  }));
+
+  const blogEntries: MetadataRoute.Sitemap = (posts ?? []).map((p) => ({
+    url: base + '/blog/' + p.slug,
     lastModified: now,
     changeFrequency: 'monthly',
     priority: 0.6
   }));
-  const blog: MetadataRoute.Sitemap = posts.map((p) => ({
-    url: new URL('/blog/' + p.slug, site.url).toString(),
-    lastModified: new Date(p.date),
-    changeFrequency: 'monthly',
-    priority: 0.5
-  }));
-  return [...base, ...proj, ...blog];
+
+  return [...staticEntries, ...projectEntries, ...blogEntries];
 }
