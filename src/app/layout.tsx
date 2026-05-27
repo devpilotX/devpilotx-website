@@ -13,6 +13,7 @@ import AnalyticsScript from '@/components/AnalyticsScript';
 import AdSenseScript from '@/components/AdSenseScript';
 import ThemeProvider from '@/components/ThemeProvider';
 import CacheBuster from '@/components/CacheBuster';
+import ServiceWorkerRegister from '@/components/ServiceWorkerRegister';
 
 const fraunces = Fraunces({
   subsets: ['latin'],
@@ -77,6 +78,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="font-sans antialiased">
         <CacheBuster />
+        <ServiceWorkerRegister />
         <ThemeProvider>
           <div className="relative min-h-screen flex flex-col">
             <SiteHeader />
