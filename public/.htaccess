@@ -11,7 +11,6 @@ RewriteCond %{THE_REQUEST} /index\.html [NC]
 RewriteRule ^(.*?)index\.html$ /$1 [L,R=301,NE]
 
 # Safari/iOS auto-requests /apple-touch-icon.png even when not in HTML.
-# Serve the SVG with the PNG filename so the browser is happy.
 RewriteRule ^apple-touch-icon\.png$ /apple-touch-icon.svg [L]
 RewriteRule ^apple-touch-icon-precomposed\.png$ /apple-touch-icon.svg [L]
 
@@ -21,16 +20,33 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^([^.]+?)/?$ /$1/index.html [L]
 
 <IfModule mod_headers.c>
-  # Hashed, immutable assets: cache forever.
+  # Hashed, immutable assets under /_next/static: cache forever (filename hash
+  # changes on every rebuild, so this is always safe).
   <FilesMatch "\.(?:js|css|woff2?|png|jpg|jpeg|webp|svg|ico)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>
 
-  # HTML must revalidate every request so a new deploy is picked up immediately.
+  # HTML: never cache anywhere. The home page bug we hit on 2026-05-27 was
+  # HCDN edge caching index.html with s-maxage=1y, so subsequent deploys
+  # left it pointing at chunk hashes that had been deleted. These directives
+  # cover every CDN dialect we have seen:
+  #   * Cache-Control: no-store     -> browsers + most CDNs
+  #   * Surrogate-Control: no-store -> RFC 3174, respected by HCDN
+  #   * CDN-Cache-Control: no-store -> Cloudflare/HCDN newer dialect
+  #   * Pragma + Expires            -> HTTP/1.0 fallback
+  # 'Header always' overrides upstream/runtime defaults.
   <FilesMatch "\.html$">
-    Header set Cache-Control "no-cache, must-revalidate, max-age=0"
-    Header set Pragma "no-cache"
-    Header set Expires "0"
+    Header always unset Cache-Control
+    Header always unset Surrogate-Control
+    Header always unset CDN-Cache-Control
+    Header always unset Expires
+    Header always unset Pragma
+    Header always set Cache-Control "no-store, no-cache, must-revalidate, max-age=0, private"
+    Header always set Surrogate-Control "no-store"
+    Header always set CDN-Cache-Control "no-store"
+    Header always set Pragma "no-cache"
+    Header always set Expires "0"
+    Header always set Vary "*"
   </FilesMatch>
 
   # Manifests, sitemaps, robots: short cache.
