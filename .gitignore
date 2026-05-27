@@ -1,0 +1,36 @@
+# Dependencies
+node_modules
+.pnpm-store
+
+# Builds
+.next
+out
+build
+dist
+
+# Env files
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS and editors
+.DS_Store
+.idea
+.vscode
+
+# Deploy tooling
+.vercel
+.turbo
+
+# Coverage and test output
+coverage
+
+# Generated
+next-env.d.ts
+api/prisma/migrations/dev.db*
