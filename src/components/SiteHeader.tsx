@@ -9,6 +9,12 @@ import Container from './Container';
 import { cn } from '@/lib/utils';
 import { ThemeToggle } from './ThemeToggle';
 
+function isActive(pathname: string | null, href: string) {
+  if (!pathname) return false;
+  if (pathname === href) return true;
+  return pathname.startsWith(href + '/');
+}
+
 function openCommandPalette() {
   if (typeof window === 'undefined') return;
   window.dispatchEvent(new CustomEvent('dpx:cmdk:open'));
@@ -52,7 +58,7 @@ export default function SiteHeader() {
 
         <nav className="hidden md:flex items-center gap-0.5">
           {site.nav.map((item) => {
-            const active = pathname === item.href || (item.href !== '/' && pathname?.startsWith(item.href));
+            const active = isActive(pathname, item.href);
             return (
               <Link
                 key={item.href}
@@ -103,7 +109,7 @@ export default function SiteHeader() {
         <div className="md:hidden border-t border-border bg-bg/95 backdrop-blur-md">
           <Container className="py-3 flex flex-col gap-1">
             {site.nav.map((item) => {
-              const active = pathname === item.href || (item.href !== '/' && pathname?.startsWith(item.href));
+              const active = isActive(pathname, item.href);
               return (
                 <Link
                   key={item.href}
