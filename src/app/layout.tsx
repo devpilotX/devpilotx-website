@@ -5,6 +5,7 @@ import { Fraunces } from 'next/font/google';
 import './globals.css';
 import { site } from '@/content/site';
 import { buildMetadata } from '@/lib/seo';
+import UtilityBar from '@/components/UtilityBar';
 import SiteHeader from '@/components/SiteHeader';
 import SiteFooter from '@/components/SiteFooter';
 import AskBubble from '@/components/AskBubble';
@@ -16,7 +17,7 @@ import ThemeProvider from '@/components/ThemeProvider';
 const fraunces = Fraunces({
   subsets: ['latin'],
   display: 'swap',
-  weight: ['500', '600', '700'],
+  weight: ['400', '500', '600', '700'],
   variable: '--font-fraunces',
   axes: ['SOFT', 'opsz']
 });
@@ -36,8 +37,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#fafafc' },
-    { media: '(prefers-color-scheme: dark)', color: '#0a0a0f' }
+    { media: '(prefers-color-scheme: light)', color: '#fafaf8' },
+    { media: '(prefers-color-scheme: dark)', color: '#080c16' }
   ]
 };
 
@@ -64,7 +65,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="font-sans antialiased">
         <ThemeProvider>
           <div className="relative min-h-screen flex flex-col">
-            <div aria-hidden className="pointer-events-none fixed inset-0 dotted-grid opacity-50" />
+            <UtilityBar />
             <SiteHeader />
             <main className="flex-1 relative">{children}</main>
             <SiteFooter />

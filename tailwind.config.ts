@@ -4,7 +4,7 @@ const config: Config = {
   darkMode: 'class',
   content: ['./src/**/*.{ts,tsx,mdx}'],
   theme: {
-    container: { center: true, padding: '1.25rem', screens: { '2xl': '1240px' } },
+    container: { center: true, padding: '1.5rem', screens: { '2xl': '1280px' } },
     extend: {
       colors: {
         bg: {
@@ -24,19 +24,19 @@ const config: Config = {
           muted: 'rgb(var(--fg-muted) / <alpha-value>)'
         },
         border: {
-          DEFAULT: 'rgb(var(--border-rgb) / 0.10)',
-          strong: 'rgb(var(--border-rgb) / 0.20)'
+          DEFAULT: 'rgb(var(--border-rgb) / 0.08)',
+          strong: 'rgb(var(--border-rgb) / 0.18)'
         },
         brand: {
-          50: '#eef2ff', 100: '#e0e7ff', 200: '#c7d2fe', 300: '#a5b4fc',
-          400: '#818cf8', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca',
-          800: '#3730a3', 900: '#312e81'
-        },
-        cyan: { 400: '#22d3ee', 500: '#06b6d4', 600: '#0891b2' }
+          50: '#eff6ff', 100: '#dbeafe', 200: '#bfdbfe', 300: '#93c5fd',
+          400: '#60a5fa', 500: '#3b82f6', 600: '#0e5aea', 700: '#1d4ed8',
+          800: '#1e40af', 900: '#1e3a8a', 950: '#0b1f3a'
+        }
       },
       fontFamily: {
         sans: ['var(--font-geist-sans)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        mono: ['var(--font-geist-mono)', 'ui-monospace', 'SFMono-Regular', 'monospace']
+        mono: ['var(--font-geist-mono)', 'ui-monospace', 'SFMono-Regular', 'monospace'],
+        display: ['var(--font-fraunces)', 'Fraunces', 'New York', 'Iowan Old Style', 'Georgia', 'serif']
       },
       backgroundImage: {
         'brand-gradient': 'linear-gradient(135deg, rgb(var(--brand)) 0%, rgb(var(--brand-2)) 100%)'
@@ -50,10 +50,10 @@ const config: Config = {
         'pulse-soft': 'pulse-soft 2.4s ease-in-out infinite'
       },
       boxShadow: {
-        'glow': '0 0 0 1px rgb(var(--border-rgb) / 0.06), 0 30px 60px -30px rgb(var(--brand) / 0.45)',
-        'card': '0 1px 0 rgb(var(--border-rgb) / 0.06) inset, 0 24px 60px -32px rgb(0 0 0 / 0.40)'
+        'glow': '0 20px 40px -24px rgb(var(--border-rgb) / 0.20)',
+        'card': '0 1px 2px rgb(var(--border-rgb) / 0.04), 0 20px 40px -28px rgb(var(--border-rgb) / 0.18)'
       },
-      borderRadius: { xl: '14px', '2xl': '18px', '3xl': '24px' }
+      borderRadius: { xl: '12px', '2xl': '16px', '3xl': '24px' }
     }
   },
   plugins: []
