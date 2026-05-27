@@ -45,6 +45,14 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Display serif for the wordmark + occasional emphasis */
+.font-display {
+  font-family: var(--font-fraunces), Fraunces, 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  font-feature-settings: 'ss01' on, 'ss02' on;
+  font-optical-sizing: auto;
+  letter-spacing: -0.01em;
+}
+
 /* Ambient gradient orbs, subtle in light, richer in dark */
 body::before {
   content: '';

@@ -10,10 +10,15 @@ export default function SiteFooter() {
       <Container as="div" className="py-14 grid grid-cols-1 md:grid-cols-12 gap-10">
         <div className="md:col-span-5">
           <div className="flex items-center gap-2.5">
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-brand-gradient shadow-glow">
-              <span className="text-white font-bold text-sm">D</span>
+            <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-brand-gradient shadow-glow ring-1 ring-white/10">
+              <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden="true">
+                <path d="M6 4h6c5 0 8.5 3.4 8.5 8s-3.5 8-8.5 8H6V4zm3.4 3v10H12c3 0 5-2 5-5s-2-5-5-5H9.4z" fill="white"/>
+                <circle cx="19" cy="19" r="1.6" fill="white"/>
+              </svg>
             </span>
-            <span className="font-semibold tracking-tight text-fg">{site.name}</span>
+            <span className="font-display text-[19px] leading-none font-semibold tracking-tight text-fg">
+              {site.name}<span className="text-gradient">.</span>
+            </span>
           </div>
           <p className="mt-4 text-sm text-fg-dim max-w-md leading-relaxed">{site.tagline}</p>
           <div className="mt-5 flex items-center gap-2">
@@ -52,7 +57,7 @@ export default function SiteFooter() {
       </Container>
       <div className="border-t border-border">
         <Container as="div" className="py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs text-fg-muted">
-          <div>© {year} {site.ownerName}. Built solo. Static export — no tracking beyond GA + AdSense.</div>
+          <div>© {year} {site.ownerName}. Built solo. Static export, no tracking beyond GA + AdSense.</div>
           <div className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse-soft" /> All systems operational</div>
         </Container>
       </div>
