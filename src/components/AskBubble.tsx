@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { MessageCircle, Send, Sparkles, X, ArrowUpRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { search, summarize } from '@/lib/rag';
 
 type Msg = {
   role: 'user' | 'assistant';
@@ -23,6 +24,8 @@ const panelAnimate = { opacity: 1, y: 0, scale: 1 };
 const panelExit = { opacity: 0, y: 16, scale: 0.98 };
 const panelTransition = { duration: 0.18, ease: 'easeOut' as const };
 
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE || '';
+
 export default function AskBubble() {
   const [open, setOpen] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -40,28 +43,49 @@ export default function AskBubble() {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
   }, [messages, open]);
 
+  // In static export we run the RAG client-side over the same content bundle.
+  // If a remote API is configured we prefer it (richer logging, future LLM),
+  // otherwise we fall back to in-browser retrieval so the assistant always works.
   async function ask(q: string) {
-    if (!q.trim() || busy) return;
-    setMessages((m) => [...m, { role: 'user', text: q }]);
+    const query = q.trim();
+    if (!query || busy) return;
+    setMessages((m) => [...m, { role: 'user', text: query }]);
     setInput('');
     setBusy(true);
     try {
-      const r = await fetch('/api/ask', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ q })
-      });
-      const data = await r.json();
+      if (API_BASE) {
+        try {
+          const r = await fetch(API_BASE + '/ask', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ q: query })
+          });
+          if (r.ok) {
+            const data = await r.json();
+            setMessages((m) => [
+              ...m,
+              {
+                role: 'assistant',
+                text: data.answer ?? 'No answer.',
+                sources: data.sources ?? []
+              }
+            ]);
+            return;
+          }
+        } catch {
+          // fall through to local RAG
+        }
+      }
+      const matches = search(query, 4);
+      const answer = summarize(query, matches);
       setMessages((m) => [
         ...m,
         {
           role: 'assistant',
-          text: data.answer ?? 'No answer.',
-          sources: data.sources ?? []
+          text: answer,
+          sources: matches.map((x) => ({ title: x.title, url: x.url }))
         }
       ]);
-    } catch {
-      setMessages((m) => [...m, { role: 'assistant', text: 'Something went wrong. Try again.' }]);
     } finally {
       setBusy(false);
     }
