@@ -1,48 +1,52 @@
 'use client';
 
+import { useTheme } from 'next-themes';
+import { Monitor, Moon, Sun } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { cn } from '@/lib/utils';
 
 export function ThemeToggle() {
+  const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const [isDark, setIsDark] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-    const saved = typeof window !== 'undefined' ? window.localStorage.getItem('theme') : null;
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const dark = saved ? saved === 'dark' : prefersDark;
-    setIsDark(dark);
-    document.documentElement.classList.toggle('dark', dark);
-  }, []);
-
-  function toggle() {
-    const next = !isDark;
-    setIsDark(next);
-    document.documentElement.classList.toggle('dark', next);
-    window.localStorage.setItem('theme', next ? 'dark' : 'light');
-  }
+  useEffect(() => { setMounted(true); }, []);
 
   if (!mounted) {
-    return <button aria-label="Toggle theme" className="h-9 w-9 rounded-full" />;
+    return <div className="inline-flex h-9 w-[96px] rounded-full surface" aria-hidden />;
   }
 
+  const current = theme ?? 'system';
+  const opts = [
+    { id: 'light', icon: Sun, label: 'Light theme' },
+    { id: 'system', icon: Monitor, label: 'System theme' },
+    { id: 'dark', icon: Moon, label: 'Dark theme' }
+  ] as const;
+
   return (
-    <button
-      type="button"
-      onClick={toggle}
-      aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
-      className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
-    >
-      {isDark ? (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <circle cx="12" cy="12" r="4" />
-          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
-        </svg>
-      ) : (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-        </svg>
-      )}
-    </button>
+    <div role="radiogroup" aria-label="Theme" className="inline-flex items-center gap-0.5 p-1 rounded-full surface">
+      {opts.map((o) => {
+        const Icon = o.icon;
+        const active = current === o.id;
+        return (
+          <button
+            key={o.id}
+            role="radio"
+            aria-checked={active}
+            aria-label={o.label}
+            title={o.label}
+            type="button"
+            onClick={() => setTheme(o.id)}
+            className={cn(
+              'relative inline-flex h-7 w-7 items-center justify-center rounded-full transition-colors focus-ring',
+              active ? 'bg-fg/[0.08] text-fg' : 'text-fg-muted hover:text-fg'
+            )}
+          >
+            <Icon size={14} aria-hidden />
+          </button>
+        );
+      })}
+    </div>
   );
 }
+
+export default ThemeToggle;

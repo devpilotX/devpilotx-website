@@ -10,13 +10,19 @@ import AskBubble from '@/components/AskBubble';
 import CommandPalette from '@/components/CommandPalette';
 import AnalyticsScript from '@/components/AnalyticsScript';
 import AdSenseScript from '@/components/AdSenseScript';
+import ThemeProvider from '@/components/ThemeProvider';
 
 export const metadata: Metadata = buildMetadata({});
-export const viewport: Viewport = { themeColor: '#0a0a0f', colorScheme: 'dark' };
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#fafafc' },
+    { media: '(prefers-color-scheme: dark)', color: '#0a0a0f' }
+  ]
+};
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <head>
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="canonical" href={site.url} />
@@ -35,15 +41,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
       </head>
-      <body className="font-sans">
-        <div className="relative min-h-screen flex flex-col">
-          <div aria-hidden className="pointer-events-none fixed inset-0 dotted-grid opacity-60" />
-          <SiteHeader />
-          <main className="flex-1 relative">{children}</main>
-          <SiteFooter />
-        </div>
-        <AskBubble />
-        <CommandPalette />
+      <body className="font-sans antialiased">
+        <ThemeProvider>
+          <div className="relative min-h-screen flex flex-col">
+            <div aria-hidden className="pointer-events-none fixed inset-0 dotted-grid opacity-50" />
+            <SiteHeader />
+            <main className="flex-1 relative">{children}</main>
+            <SiteFooter />
+          </div>
+          <AskBubble />
+          <CommandPalette />
+        </ThemeProvider>
         <AnalyticsScript />
         <AdSenseScript />
       </body>
