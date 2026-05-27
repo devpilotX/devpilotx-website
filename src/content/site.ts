@@ -1,28 +1,51 @@
 export const site = {
   name: 'DevPilotX',
-  tagline: 'Custom websites, automation, and AI agents. Built with senior craft.',
-  url: process.env.NEXT_PUBLIC_SITE_URL || 'https://devpilotx.com',
-  description:
-    'DevPilotX is the portfolio and services studio of Dipanshu. Custom websites, automation pipelines, and AI agents built end to end with senior craft.',
-  twitter: '@value_codes',
-  github: 'https://github.com/devpilotX',
-  linkedin: 'https://www.linkedin.com/company/112110060',
-  youtube: 'https://www.youtube.com/@value_codes',
+  description: 'I build production-grade AI agents, RAG systems, and full-stack platforms. Solo, in production, for real users.',
+  adsense: 'ca-pub-6484525483464374',
+  ownerName: 'Dipanshu Kumar',
+  role: 'AI Engineer',
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://devpilotx.com',
+  tagline:
+    'I build production-grade AI agents, RAG systems, and full-stack platforms. Solo, in production, for real users.',
+  shortBio:
+    'Independent AI engineer from India. BCA graduate from Maharishi Markandeshwar University. I ship live AI agents, automation pipelines, finance tools, and developer infrastructure.',
+  location: 'Ambala, Haryana, India',
+  // Primary inbox until devpilotx.com mail is provisioned.
+  primaryEmail: 'connect.dipanshukumar@gmail.com',
   email: {
-    hello: 'hello@devpilotx.com',
-    contact: 'contact@devpilotx.com',
-    services: 'services@devpilotx.com',
-    admin: 'admin@devpilotx.com'
+    hello: 'connect.dipanshukumar@gmail.com',
+    contact: 'connect.dipanshukumar@gmail.com',
+    services: 'connect.dipanshukumar@gmail.com',
+    admin: 'connect.dipanshukumar@gmail.com',
+    noreply: 'connect.dipanshukumar@gmail.com'
   },
-  adsense: { client: 'ca-pub-6484525483464374' },
-  analytics: { measurementId: 'G-5XLBZN8M7M' },
+  github: 'https://github.com/devpilotX',
+  linkedin: 'https://linkedin.com/in/dipanshu03j',
+  twitter: 'https://twitter.com/value_codes',
+  youtube: 'https://www.youtube.com/@value_codes',
+  paisareality: 'https://paisareality.com',
+  valueCodes: 'https://value.codes',
+  epicenterExchange: 'https://epicenterexchange.com',
+  links: {
+    github: 'https://github.com/devpilotX',
+    linkedin: 'https://linkedin.com/in/dipanshu03j',
+    twitter: 'https://twitter.com/value_codes',
+    youtube: 'https://www.youtube.com/@value_codes',
+    paisareality: 'https://paisareality.com',
+    valueCodes: 'https://value.codes',
+    epicenterExchange: 'https://epicenterexchange.com'
+  },
+  analytics: {
+    ga: 'G-5XLBZN8M7M',
+    adsense: 'ca-pub-6484525483464374'
+  },
   nav: [
-    { href: '/', label: 'Home' },
     { href: '/projects', label: 'Projects' },
     { href: '/services', label: 'Services' },
     { href: '/resume', label: 'Resume' },
-    { href: '/blog', label: 'Blog' },
     { href: '/about', label: 'About' },
     { href: '/contact', label: 'Contact' }
   ]
 } as const;
+
+export type Site = typeof site;

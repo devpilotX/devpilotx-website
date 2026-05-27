@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { Container } from '@/components/Container';
+import Container from '@/components/Container';
 import { getPost, posts } from '@/content/posts';
 import { formatDate } from '@/lib/utils';
 import { buildMetadata } from '@/lib/seo';
@@ -21,7 +21,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
   return (
     <Container className="py-20">
       <article className="mx-auto max-w-3xl">
-        <p className="text-xs uppercase tracking-widest text-brand-600 dark:text-brand-400">{formatDate(p.publishedAt)}</p>
+        <p className="text-xs uppercase tracking-widest text-brand-600 dark:text-brand-400">{formatDate(p.date)}</p>
         <h1 className="mt-2 text-4xl font-semibold tracking-tight text-slate-900 sm:text-5xl dark:text-white">{p.title}</h1>
         <p className="mt-3 text-lg text-slate-600 dark:text-slate-300">{p.excerpt}</p>
         <div className="prose-body mt-8 space-y-5 text-base leading-7">

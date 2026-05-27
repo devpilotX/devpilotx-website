@@ -1,55 +1,58 @@
 import Link from 'next/link';
+import { Github, Linkedin, Twitter, Youtube, Mail } from 'lucide-react';
 import { site } from '@/content/site';
-import { Container } from '@/components/Container';
+import Container from './Container';
 
-export function SiteFooter() {
+export default function SiteFooter() {
   const year = new Date().getFullYear();
   return (
-    <footer className="mt-24 border-t border-slate-200 bg-slate-50 py-12 dark:border-slate-800 dark:bg-slate-950">
-      <Container className="grid gap-10 md:grid-cols-4">
-        <div>
-          <div className="flex items-center gap-2">
-            <span aria-hidden="true" className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-brand-600 text-white">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M4 18l4-12 4 8 4-6 4 10" />
-              </svg>
+    <footer className="relative mt-24 border-t border-border">
+      <Container as="div" className="py-12 grid grid-cols-1 md:grid-cols-4 gap-10">
+        <div className="md:col-span-2">
+          <div className="flex items-center gap-2.5">
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-brand-gradient shadow-glow">
+              <span className="text-white font-bold text-sm">D</span>
             </span>
-            <span className="font-semibold tracking-tight text-slate-900 dark:text-white">{site.name}</span>
+            <span className="font-semibold tracking-tight">{site.name}</span>
           </div>
-          <p className="mt-3 max-w-xs text-sm text-slate-600 dark:text-slate-400">{site.tagline}</p>
+          <p className="mt-4 text-sm text-ink-dim max-w-md leading-relaxed">{site.tagline}</p>
+          <div className="mt-5 flex items-center gap-2">
+            <Link href={site.links.github} target="_blank" rel="noreferrer" className="inline-flex h-9 w-9 items-center justify-center rounded-lg glass hover:border-strong text-ink-dim hover:text-white transition-colors" aria-label="GitHub"><Github size={15} /></Link>
+            <Link href={site.links.linkedin} target="_blank" rel="noreferrer" className="inline-flex h-9 w-9 items-center justify-center rounded-lg glass hover:border-strong text-ink-dim hover:text-white transition-colors" aria-label="LinkedIn"><Linkedin size={15} /></Link>
+            <Link href={site.links.twitter} target="_blank" rel="noreferrer" className="inline-flex h-9 w-9 items-center justify-center rounded-lg glass hover:border-strong text-ink-dim hover:text-white transition-colors" aria-label="Twitter"><Twitter size={15} /></Link>
+            <Link href={site.links.youtube} target="_blank" rel="noreferrer" className="inline-flex h-9 w-9 items-center justify-center rounded-lg glass hover:border-strong text-ink-dim hover:text-white transition-colors" aria-label="YouTube"><Youtube size={15} /></Link>
+            <Link href={`mailto:${site.email.hello}`} className="inline-flex h-9 w-9 items-center justify-center rounded-lg glass hover:border-strong text-ink-dim hover:text-white transition-colors" aria-label="Email"><Mail size={15} /></Link>
+          </div>
         </div>
         <div>
-          <h3 className="text-sm font-semibold text-slate-900 dark:text-white">Studio</h3>
-          <ul className="mt-3 space-y-2 text-sm text-slate-600 dark:text-slate-400">
-            <li><Link href="/projects" className="hover:text-slate-900 dark:hover:text-white">Projects</Link></li>
-            <li><Link href="/services" className="hover:text-slate-900 dark:hover:text-white">Services</Link></li>
-            <li><Link href="/about" className="hover:text-slate-900 dark:hover:text-white">About</Link></li>
-            <li><Link href="/resume" className="hover:text-slate-900 dark:hover:text-white">Resume</Link></li>
+          <div className="text-xs uppercase tracking-[0.18em] text-ink-muted mb-3">Site</div>
+          <ul className="space-y-2 text-sm">
+            {site.nav.map((n) => (
+              <li key={n.href}><Link href={n.href} className="text-ink-dim hover:text-white transition-colors">{n.label}</Link></li>
+            ))}
           </ul>
         </div>
         <div>
-          <h3 className="text-sm font-semibold text-slate-900 dark:text-white">Resources</h3>
-          <ul className="mt-3 space-y-2 text-sm text-slate-600 dark:text-slate-400">
-            <li><Link href="/blog" className="hover:text-slate-900 dark:hover:text-white">Blog</Link></li>
-            <li><Link href="/contact" className="hover:text-slate-900 dark:hover:text-white">Contact</Link></li>
-            <li><a href={site.github} rel="noreferrer" className="hover:text-slate-900 dark:hover:text-white">GitHub</a></li>
-            <li><a href={site.linkedin} rel="noreferrer" className="hover:text-slate-900 dark:hover:text-white">LinkedIn</a></li>
+          <div className="text-xs uppercase tracking-[0.18em] text-ink-muted mb-3">Other work</div>
+          <ul className="space-y-2 text-sm">
+            <li><a href={site.links.paisareality} target="_blank" rel="noreferrer" className="text-ink-dim hover:text-white transition-colors">Paisa Reality</a></li>
+            <li><a href={site.links.valueCodes} target="_blank" rel="noreferrer" className="text-ink-dim hover:text-white transition-colors">Value Codes</a></li>
+            <li><a href={site.links.epicenterExchange} target="_blank" rel="noreferrer" className="text-ink-dim hover:text-white transition-colors">Epicenter Exchange</a></li>
           </ul>
-        </div>
-        <div>
-          <h3 className="text-sm font-semibold text-slate-900 dark:text-white">Legal</h3>
-          <ul className="mt-3 space-y-2 text-sm text-slate-600 dark:text-slate-400">
-            <li><Link href="/legal/privacy" className="hover:text-slate-900 dark:hover:text-white">Privacy</Link></li>
-            <li><Link href="/legal/terms" className="hover:text-slate-900 dark:hover:text-white">Terms</Link></li>
-            <li><Link href="/legal/cookies" className="hover:text-slate-900 dark:hover:text-white">Cookies</Link></li>
-            <li><a href={'mailto:' + site.email.hello} className="hover:text-slate-900 dark:hover:text-white">{site.email.hello}</a></li>
+          <div className="text-xs uppercase tracking-[0.18em] text-ink-muted mt-6 mb-3">Legal</div>
+          <ul className="space-y-2 text-sm">
+            <li><Link href="/legal/privacy" className="text-ink-dim hover:text-white transition-colors">Privacy</Link></li>
+            <li><Link href="/legal/terms" className="text-ink-dim hover:text-white transition-colors">Terms</Link></li>
+            <li><Link href="/legal/cookies" className="text-ink-dim hover:text-white transition-colors">Cookies</Link></li>
           </ul>
         </div>
       </Container>
-      <Container className="mt-10 flex flex-col items-start gap-2 border-t border-slate-200 pt-6 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between dark:border-slate-800 dark:text-slate-400">
-        <p>&copy; {year} {site.name}. All rights reserved.</p>
-        <p>Built in India. Hosted on a single tidy VPS.</p>
-      </Container>
+      <div className="border-t border-border">
+        <Container as="div" className="py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs text-ink-muted">
+          <div>© {year} {site.ownerName}. Built solo. No tracking beyond GA + AdSense.</div>
+          <div className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse-soft" /> All systems operational</div>
+        </Container>
+      </div>
     </footer>
   );
 }

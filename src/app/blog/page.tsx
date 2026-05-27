@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import { Container } from '@/components/Container';
-import { SectionHeading } from '@/components/SectionHeading';
+import Container from '@/components/Container';
+import SectionHeading from '@/components/SectionHeading';
 import { posts } from '@/content/posts';
 import { formatDate } from '@/lib/utils';
 import { buildMetadata } from '@/lib/seo';
@@ -18,7 +18,7 @@ export default function BlogPage() {
       <div className="mt-10 grid gap-6 sm:grid-cols-2">
         {posts.map((p) => (
           <article key={p.slug} className="card">
-            <p className="text-xs uppercase tracking-widest text-brand-600 dark:text-brand-400">{formatDate(p.publishedAt)}</p>
+            <p className="text-xs uppercase tracking-widest text-brand-600 dark:text-brand-400">{formatDate(p.date)}</p>
             <h2 className="mt-2 text-lg font-semibold text-slate-900 dark:text-white">
               <Link href={'/blog/' + p.slug} className="hover:text-brand-600 dark:hover:text-brand-400">{p.title}</Link>
             </h2>

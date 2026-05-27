@@ -1,5 +1,5 @@
-import { Container } from '@/components/Container';
-import { SectionHeading } from '@/components/SectionHeading';
+import Container from '@/components/Container';
+import SectionHeading from '@/components/SectionHeading';
 import { buildMetadata } from '@/lib/seo';
 import { site } from '@/content/site';
 import Link from 'next/link';

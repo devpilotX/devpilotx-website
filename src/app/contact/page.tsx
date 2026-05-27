@@ -1,6 +1,6 @@
-import { Container } from '@/components/Container';
-import { SectionHeading } from '@/components/SectionHeading';
-import { ContactForm } from '@/components/ContactForm';
+import Container from '@/components/Container';
+import SectionHeading from '@/components/SectionHeading';
+import ContactForm from '@/components/ContactForm';
 import { site } from '@/content/site';
 import { buildMetadata } from '@/lib/seo';
 
