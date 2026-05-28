@@ -26,6 +26,9 @@ const fraunces = Fraunces({
 export const metadata: Metadata = {
   ...buildMetadata({}),
   manifest: '/site.webmanifest',
+  verification: {
+    google: 'Uw18XI6IY5Xc9kSnM58NtHWgGBGXI49I5ySar0-CKtw'
+  },
   icons: {
     icon: [
       { url: '/favicon.svg', type: 'image/svg+xml' },
@@ -104,6 +107,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta httpEquiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
         <meta httpEquiv="Pragma" content="no-cache" />
         <meta httpEquiv="Expires" content="0" />
+        <meta name="google-site-verification" content="Uw18XI6IY5Xc9kSnM58NtHWgGBGXI49I5ySar0-CKtw" />
+        <meta name="google-adsense-account" content="ca-pub-6484525483464374" />
         <script {...cacheRecoveryScriptProps} />
         <link rel="canonical" href={site.url} />
         <script {...jsonLdProps} />
