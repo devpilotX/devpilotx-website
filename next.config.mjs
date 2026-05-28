@@ -1,5 +1,5 @@
 /** @type {import('next').NextConfig} */
-// Build version 2026-05-27.2 - bumped to force a fresh HCDN cache entry
+// Build version 2026-05-28.1 - bumped to force fresh Hostinger rebuild after JSON-LD + widget changes
 // after the index.html cache poisoning fix. Safe to bump on any future
 // stuck-cache incident.
 const nextConfig = {
