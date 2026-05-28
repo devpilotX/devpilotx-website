@@ -23,13 +23,14 @@ export function ContactForm({ source }: { source?: string }) {
     e.preventDefault();
     setError(null);
     const form = new FormData(e.currentTarget);
+    const role = String(form.get('role') ?? 'other') as 'recruiter' | 'customer' | 'other';
     const payload = {
       name: String(form.get('name') ?? ''),
       email: String(form.get('email') ?? ''),
-      role: String(form.get('role') ?? 'other') as 'recruiter' | 'customer' | 'other',
+      role,
       company: String(form.get('company') ?? ''),
       message: String(form.get('message') ?? ''),
-      subject: 'Contact form from ' + (payload.role || 'visitor'),
+      subject: 'Contact form from ' + (role || 'visitor'),
       site: 'devpilotx.com',
       sourcePage: source
     };
