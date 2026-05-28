@@ -29,6 +29,8 @@ export function ContactForm({ source }: { source?: string }) {
       role: String(form.get('role') ?? 'other') as 'recruiter' | 'customer' | 'other',
       company: String(form.get('company') ?? ''),
       message: String(form.get('message') ?? ''),
+      subject: 'Contact form from ' + (payload.role || 'visitor'),
+      site: 'devpilotx.com',
       sourcePage: source
     };
     const parsed = schema.safeParse(payload);
@@ -38,7 +40,7 @@ export function ContactForm({ source }: { source?: string }) {
     }
     setStatus('sending');
     try {
-      const res = await fetch(API_BASE + '/contact', {
+      const res = await fetch(API_BASE + '/v2/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(parsed.data)
