@@ -8,6 +8,8 @@ const schema = z.object({
   email: z.string().email('Please enter a valid email'),
   role: z.enum(['recruiter', 'customer', 'other']),
   company: z.string().max(160).optional().or(z.literal('')),
+  // Honeypot — must stay empty. Real humans never see this field.
+  website: z.string().max(0).optional().or(z.literal('')),
   message: z.string().min(10, 'A short message helps me reply faster').max(4000)
 });
 
@@ -29,6 +31,7 @@ export function ContactForm({ source }: { source?: string }) {
       email: String(form.get('email') ?? ''),
       role,
       company: String(form.get('company') ?? ''),
+      website: String(form.get('website') ?? ''),
       message: String(form.get('message') ?? ''),
       subject: 'Contact form from ' + (role || 'visitor'),
       site: 'devpilotx.com',
@@ -90,6 +93,11 @@ export function ContactForm({ source }: { source?: string }) {
       <div className="grid gap-2">
         <label htmlFor="company" className="text-sm font-medium">Company (optional)</label>
         <input id="company" name="company" maxLength={160} className="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-900" />
+      </div>
+      {/* Honeypot: hidden field. Real users never fill this; bots that auto-fill all fields trip the trap and get silently dropped server-side. */}
+      <div aria-hidden="true" className="absolute left-[-10000px] top-auto h-px w-px overflow-hidden">
+        <label htmlFor="website">Website</label>
+        <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" defaultValue="" />
       </div>
       <div className="grid gap-2">
         <label htmlFor="message" className="text-sm font-medium">Message</label>
