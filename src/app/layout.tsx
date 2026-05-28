@@ -65,6 +65,38 @@ const jsonLdProps = {
   }
 };
 
+
+const organizationLdProps = {
+  type: 'application/ld+json',
+  dangerouslySetInnerHTML: {
+    __html: JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      name: 'DevPilotX',
+      url: site.url,
+      logo: site.url + '/icon.svg',
+      sameAs: [site.links.github, site.links.linkedin, site.links.twitter, site.links.youtube].filter(Boolean)
+    })
+  }
+};
+
+const websiteLdProps = {
+  type: 'application/ld+json',
+  dangerouslySetInnerHTML: {
+    __html: JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: 'DevPilotX',
+      url: site.url,
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: site.url + '/search?q={search_term_string}',
+        'query-input': 'required name=search_term_string'
+      }
+    })
+  }
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning className={`${GeistSans.variable} ${GeistMono.variable} ${fraunces.variable}`}>
@@ -75,6 +107,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script {...cacheRecoveryScriptProps} />
         <link rel="canonical" href={site.url} />
         <script {...jsonLdProps} />
+        <script {...organizationLdProps} />
+        <script {...websiteLdProps} />
+        <script src="https://api.devpilotx.com/v2/widget.js" async></script>
       </head>
       <body className="font-sans antialiased">
         <CacheBuster />
